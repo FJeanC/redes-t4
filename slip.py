@@ -1,3 +1,5 @@
+current_data_buffer = b''
+
 class CamadaEnlace:
     ignore_checksum = False
 
@@ -63,4 +65,17 @@ class Enlace:
         # vir quebrado de várias formas diferentes - por exemplo, podem vir
         # apenas pedaços de um quadro, ou um pedaço de quadro seguido de um
         # pedaço de outro, ou vários quadros de uma vez só.
-        pass
+        
+        global current_data_buffer
+        dados = current_data_buffer + dados
+        
+        if dados != b'':
+            data = dados.split(b'\xC0')
+            if dados.endswith(b'\xC0'):
+                current_data_buffer = b''
+            else:
+                current_data_buffer = data[len(data)-1]
+
+            for j in range(len(data) - 1):
+                if data[j] !=b'':
+                    self.callback(data[j])
