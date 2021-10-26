@@ -77,5 +77,6 @@ class Enlace:
                 current_data_buffer = data[len(data)-1]
 
             for j in range(len(data) - 1):
+                data[j] = data[j].replace(b'\xDB\xDC', b'\xC0').replace( b'\xDB\xDD', b'\xDB')
                 if data[j] !=b'':
                     self.callback(data[j])
