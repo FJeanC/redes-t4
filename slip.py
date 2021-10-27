@@ -79,4 +79,14 @@ class Enlace:
             for j in range(len(data) - 1):
                 data[j] = data[j].replace(b'\xDB\xDC', b'\xC0').replace( b'\xDB\xDD', b'\xDB')
                 if data[j] !=b'':
-                    self.callback(data[j])
+                    try:
+                        self.callback(data[j])
+                    except:
+                        # ignora a exceção, mas mostra na tela
+                        import traceback
+                        traceback.print_exc
+                    finally:
+                        # faça aqui a limpeza necessária para garantir que não vão sobrar
+                        # pedaços do datagrama em nenhum buffer mantido por você
+                        dados = b''
+                        
